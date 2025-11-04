@@ -18,6 +18,22 @@ pipeline
             }
         }
 
+        stage('SAST-TEST')
+        {
+            agent any
+            steps
+            {
+                script
+                {
+                    snykSecurity(
+                        snykInstallation: 'Snyk-installations',
+                        snykTokenId: 'Snyk-API-token',
+                        severity: 'high'
+                    )
+                }
+            }
+        }
+
         stage('BUILD-AND-TAG')
         {
             agent { label 'appserver'}
